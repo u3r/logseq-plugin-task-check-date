@@ -2,7 +2,7 @@ import "@logseq/libs";
 import dayjs from "dayjs";
 import { getDateForPage } from "logseq-dateutils";
 
-const TASK_MARKERS = new Set(["DONE", "NOW", "LATER", "DOING", "TODO", "WAITING"]);
+const TASK_MARKERS = new Set(["DONE", "NOW", "LATER", "DOING", "TODO", "WAITING", "CANCELLED"]);
 
 function main() {
   logseq.DB.onChanged(async (e) => {
@@ -13,7 +13,7 @@ function main() {
 
     const hasCompletedProperty = taskBlock.properties?.completed;
 
-    if (taskBlock.marker === "DONE") {
+    if (taskBlock.marker === "DONE" || taskBlock.marker === "CANCELLED") {
       if (hasCompletedProperty) {
         return;
       }
